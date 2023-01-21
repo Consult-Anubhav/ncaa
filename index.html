@@ -12,26 +12,45 @@
         <!-- Latest compiled JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <!-- axios script file -->
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <!-- add local script file -->
         <script src="script.js"></script>
+
     </head>
     <body>
-        <div id="root">
-            <div class="col-12">
-                <div class="d-flex col-12">
-                    <div class="col-3 over-flow-auto" id="team-name-container" >
+        <div id="root" ng-app="ncaa" ng-controller="ncaaController">
+            
+            <style>
+                .teamCapsule
+                {
+                    border: 1px solid black;
+                    border-radius: 5px;
+                    line-height: 1.2;
+                }
+            </style>
 
-                    </div>
-                    <div class="col-9 pos-sticky" >
-                        <div class="row over-flow-auto">
-                            <div class="col-12 d-flex" id="team-logo-container"
-                                style="flex-direction: row; flex-wrap: wrap;">                                
-                            </div>
-                        </div>
-                    </div>
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table d-table table-sm-stack table-sm-striped mb-0 table-borderless" id="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th class="text-center" colspan="{{max_colors}}">Teams</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="t in data">
+                            <td ng-bind="{{$index+1}}"></td>
+                            <td class="align-middle" ng-repeat="c in t.teamColorCodes">
+                                <div class="teamCapsule px-2 py-1 my-auto" ng-style="{'background-color':'#{{c}}'}">    
+                                    {{t.teamName}}
+                                </div>
+                            </td>
+                            <td ng-repeat="c in [].constructor(max_colors - t.teamColorCodes.length) track by $index">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             
