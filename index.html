@@ -42,8 +42,12 @@
                         <tr ng-repeat="t in data">
                             <td ng-bind="{{$index+1}}"></td>
                             <td class="align-middle" ng-repeat="c in t.teamColorCodes">
+                                <div class="d-flex justify-content-between">
+                                    <span ng-style="{'color': '#{{ c.replace('#', '').substring(0,6) }}'}">#{{c.replace('#', '').substring(0,6)}}</span>
+                                    <span ng-style="{'color': '#{{ c.replace('#', '').substring(0,6) | getColor }}'}">#{{c.replace('#', '').substring(0,6) | getColor}}</span>
+                                </div>
                                 <div class="teamCapsule px-2 py-1 my-auto" 
-                                    ng-style="{'background-color':'#{{c}}', 'color': '#{{ c | getColor }}'}">
+                                    ng-style="{'background-color':'#{{c.replace('#', '').substring(0,6)}}', 'color': '#{{ c.replace('#', '').substring(0,6) | getColor }}'}">
                                     <div class="row" style="height: 48px; min-width: 250px;">
                                         <div class="col-3">
                                             <div class="d-flex align-items-center h-100">
