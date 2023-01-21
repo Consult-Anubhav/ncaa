@@ -1,0 +1,94 @@
+ul{
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+#team-name-container > ul{
+    margin-top: 2rem !important;
+    margin-left: .5rem !important;
+    margin-right: .5rem !important;
+    border-right: 1px solid rgb(178 175 175 / 25%);
+    box-shadow: 5px 1px 7px 5px rgb(178 175 175 / 25%);
+}
+
+li {
+    list-style-type: none;
+}
+
+li img{
+    max-width: 30px;
+    max-height: 30px;
+}
+
+.sidebar-team-logo-preview{
+    margin-right: .5rem;
+}
+
+.team-list-name{
+    padding: 10px 5px;
+    transition: background-color 0.2s linear,
+                color 0.2s linear;
+}
+
+.team-list-name:hover , .current-selected-team{
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgba(128, 128, 128, 0.363);
+    color: rgb(26, 26, 240);
+    /* color: white; */
+}
+
+.team-list-name:hover > a{
+    text-decoration: underline;
+}
+
+.team-logo-card{
+    max-width: 30%;
+    width: 30%;
+    border-radius: 5px;
+    border: 1px solid rgb(178, 175, 175);
+    min-height: 15rem;
+    margin: 1.5rem ;
+    margin-left: 2rem;
+    padding: .5rem;
+    box-shadow: 10px 2px 20px 30px rgb(178 175 175 / 18%);
+}
+
+.team-logo-card > div{
+    width: 100%;
+}
+
+.team-logo-card  img{
+    width: 100%;
+}
+
+.team-logo-card:hover{
+    cursor: pointer;
+    z-index: 50;
+    transform: scale(1.05);
+}
+
+.pos-sticky{
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+.over-flow-auto{
+    overflow-y: auto;
+}
+
+#team-logo-container{
+    max-height: calc(100vh - 10px);
+}
+
+.card-element-main{
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.selected-team-logo{
+    border: 2px solid blue;
+    border: 3px solid rgba(0, 0, 255, 0.34);
+    box-shadow: 10px 1px 30px 0px rgba(0, 0, 255, 0.32);
+}
