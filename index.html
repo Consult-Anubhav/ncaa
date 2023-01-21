@@ -42,7 +42,8 @@
                         <tr ng-repeat="t in data">
                             <td ng-bind="{{$index+1}}"></td>
                             <td class="align-middle" ng-repeat="c in t.teamColorCodes">
-                                <div class="teamCapsule px-2 py-1 my-auto" ng-style="{'background-color':'#{{c}}'}">
+                                <div class="teamCapsule px-2 py-1 my-auto" 
+                                    ng-style="{'background-color':'#{{c}}', 'color': '#{{ c | getColor }}'}">
                                     <div class="row" style="height: 48px; min-width: 250px;">
                                         <div class="col-3">
                                             <div class="d-flex align-items-center h-100">
