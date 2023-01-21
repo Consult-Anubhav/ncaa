@@ -35,15 +35,26 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th class="text-center" colspan="{{max_colors}}">Teams</th>
+                            <th colspan="{{max_colors}}">Teams</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="t in data">
                             <td ng-bind="{{$index+1}}"></td>
                             <td class="align-middle" ng-repeat="c in t.teamColorCodes">
-                                <div class="teamCapsule px-2 py-1 my-auto" ng-style="{'background-color':'#{{c}}'}">    
-                                    {{t.teamName}}
+                                <div class="teamCapsule px-2 py-1 my-auto" ng-style="{'background-color':'#{{c}}'}">
+                                    <div class="row" style="height: 48px; min-width: 250px;">
+                                        <div class="col-3">
+                                            <div class="d-flex align-items-center h-100">
+                                                <img ng-src="{{t.teamImageLink}}" style="max-height: 48px; max-width: 48px;">
+                                            </div>
+                                        </div> 
+                                        <div class="col-9">
+                                            <div class="d-flex align-items-center h-100">
+                                                {{t.teamName}}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                             <td ng-repeat="c in [].constructor(max_colors - t.teamColorCodes.length) track by $index">
