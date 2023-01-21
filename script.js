@@ -35,12 +35,15 @@ app.controller('ncaaController', function($scope, $http) {
 });
 
 app.filter('getColor', function() {
-    return function(hex) {
 
-        const r = parseInt(hex.slice(1, 3), 16)
-        const g = parseInt(hex.slice(3, 5), 16)
-        const b = parseInt(hex.slice(5, 7), 16)
+    function inverseChannelColour(channelColour){
+        return (255 - parseInt(channelColour, 16)).toString(16);
+      }
 
-        return (((r * 299) + (g * 587) + (b * 114)) / 1000) >= 128 ? '000' : 'fff';;
+    return function(colour) {
+        const r = inverseChannelColour(colour.substring(0,2));
+        const g = inverseChannelColour(colour.substring(2,4));
+        const b = inverseChannelColour(colour.substring(4,6));
+        return r.toString().padStart(2,"0") + g.toString().padStart(2,"0") + b.toString().padStart(2,"0");
     };
 });
