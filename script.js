@@ -143,9 +143,9 @@ app.controller('ncaaController', function($scope, $http) {
 
 
 
-        $scope.paginated_data.forEach(ele1 => {
-            ele1.teamColorCodes.forEach(ele2 => { 
-                ele2 = ele2.replace('#', '').substring(0,6);
+        $scope.paginated_data.forEach((ele1, index1) => {
+            ele1.teamColorCodes.forEach((ele2, index2) => { 
+                $scope.paginated_data[index1].teamColorCodes[index2] = ele2.replace('#', '').substring(0,6);
             });
         });
         
