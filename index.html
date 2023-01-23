@@ -41,14 +41,41 @@
                     <table class="table d-table table-sm-stack table-sm-striped mb-0 table-borderless" id="table">
                         <thead>
                         <tr>
+                            <th colspan="{{max_colors + 1}}">Teams</th>
+                        </tr>
+                        <tr>
                             <th>#</th>
-                            <th colspan="{{max_colors}}">Teams</th>
+                            <th>Selected</th>
+                            <th colspan="{{max_colors}}">Options</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="t in paginated_data">
                             <td class="align-middle">
                                 <span>{{pagination_details.from + $index}}</span>
+                            </td>
+                            <td class="align-middle" style="min-width: 260px;">
+                                <div ng-if="t.approvedColor">
+                                    <div class="d-flex justify-content-between">
+                                        <span ng-style="{'color': '#{{ t.approvedColor }}'}">#{{ t.approvedColor }}</span>
+                                        <span ng-style="{'color': '#{{ t.textColor }}'}">#{{ t.textColor }}</span>
+                                    </div>
+                                    <div class="teamCapsule px-2 py-1 my-auto teamCapsule-active"
+                                        ng-style="{'background-color': '#{{ t.approvedColor }}', 'color': '#{{ t.textColor }}'}">
+                                        <div class="row" style="height: 48px; min-width: 250px;">
+                                            <div class="col-3">
+                                                <div class="d-flex align-items-center h-100">
+                                                    <img ng-src="{{t.teamImageLink}}" style="max-height: 48px; max-width: 48px;">
+                                                </div>
+                                            </div> 
+                                            <div class="col-9">
+                                                <div class="d-flex align-items-center h-100">
+                                                    {{t.teamName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                             <td class="align-middle" ng-repeat="c in t.teamColorCodes">
                                 <div>
@@ -57,7 +84,7 @@
                                         <span ng-style="{'color': '#{{ c | getContrastColor }}'}">#{{ c | getContrastColor }}</span>
                                     </div>
                                     <div class="teamCapsule px-2 py-1 my-auto" 
-                                        ng-click="setApprovedColor(t, c)" ng-class="c === t.approvedColor ? 'teamCapsule-active' : ''"
+                                        ng-click="setApprovedColor(t, c)"
                                         ng-style="{'background-color': '#{{ c }}', 'color': '#{{ c | getContrastColor }}'}">
                                         <div class="row" style="height: 48px; min-width: 250px;">
                                             <div class="col-3">
