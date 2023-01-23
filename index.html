@@ -57,11 +57,11 @@
                             <td class="align-middle" style="min-width: 260px;">
                                 <div ng-if="t.approvedColor">
                                     <div class="d-flex justify-content-between">
-                                        <span ng-style="{'color': '#{{ t.approvedColor }}'}">#{{ t.approvedColor }}</span>
-                                        <span ng-style="{'color': '#{{ t.textColor }}'}">#{{ t.textColor }}</span>
+                                        <span ng-style="{ 'color': '#' + t.approvedColor }">#{{ t.approvedColor }}</span>
+                                        <span ng-style="{ 'color': '#' + t.textColor }">#{{ t.textColor }}</span>
                                     </div>
                                     <div class="teamCapsule px-2 py-1 my-auto teamCapsule-active"
-                                        ng-style="{'background-color': '#{{ t.approvedColor }}', 'color': '#{{ t.textColor }}'}">
+                                        ng-style="{ 'background-color': '#' + t.approvedColor, 'color': '#' + t.textColor }">
                                         <div class="row" style="height: 48px; min-width: 250px;">
                                             <div class="col-3">
                                                 <div class="d-flex align-items-center h-100">
