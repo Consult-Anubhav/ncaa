@@ -30,8 +30,9 @@
                     line-height: 1.2;
                 }
                 .teamCapsule-active
-                {
-                    border: 3px solid orange;
+                {  
+                    box-shadow: 5px 5px 10px orangered;
+                    border: 2px solid orangered;
                 }
             </style>
 
@@ -50,23 +51,24 @@
                                 <span>{{pagination_details.from + $index}}</span>
                             </td>
                             <td class="align-middle" ng-repeat="c in t.teamColorCodes">
-                                <div class="d-flex justify-content-between">
-                                    <span ng-style="{'color': '#{{ c }}'}">#{{ c }}</span>
-                                    <span ng-style="{'color': '#{{ c | getContrastColor }}'}">#{{ c | getContrastColor }}</span>
-                                </div>
-                                <div class="teamCapsule px-2 py-1 my-auto" 
-                                    ng-click="setApprovedColor(t, c)"
-                                    ng-class="c === t.approvedColor ? 'teamCapsule-active' : ''"
-                                    ng-style="{'background-color': '#{{ c }}', 'color': '#{{ c | getContrastColor }}'}">
-                                    <div class="row" style="height: 48px; min-width: 250px;">
-                                        <div class="col-3">
-                                            <div class="d-flex align-items-center h-100">
-                                                <img ng-src="{{t.teamImageLink}}" style="max-height: 48px; max-width: 48px;">
-                                            </div>
-                                        </div> 
-                                        <div class="col-9">
-                                            <div class="d-flex align-items-center h-100">
-                                                {{t.teamName}}
+                                <div>
+                                    <div class="d-flex justify-content-between">
+                                        <span ng-style="{'color': '#{{ c }}'}">#{{ c }}</span>
+                                        <span ng-style="{'color': '#{{ c | getContrastColor }}'}">#{{ c | getContrastColor }}</span>
+                                    </div>
+                                    <div class="teamCapsule px-2 py-1 my-auto" 
+                                        ng-click="setApprovedColor(t, c)" ng-class="c === t.approvedColor ? 'teamCapsule-active' : ''"
+                                        ng-style="{'background-color': '#{{ c }}', 'color': '#{{ c | getContrastColor }}'}">
+                                        <div class="row" style="height: 48px; min-width: 250px;">
+                                            <div class="col-3">
+                                                <div class="d-flex align-items-center h-100">
+                                                    <img ng-src="{{t.teamImageLink}}" style="max-height: 48px; max-width: 48px;">
+                                                </div>
+                                            </div> 
+                                            <div class="col-9">
+                                                <div class="d-flex align-items-center h-100">
+                                                    {{t.teamName}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
