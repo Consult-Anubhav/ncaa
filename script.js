@@ -67,6 +67,12 @@ app.controller('ncaaController', function($scope, $http) {
         } )
         // .then( data => console.log(data) )
     }
+    
+    $scope.openColorPicker = function(id)
+    {
+        console.log(id);
+        $('#' + id).trigger('click');
+    }
 
     $scope.setApprovedColor = function (team, color)
     {
@@ -139,16 +145,17 @@ app.controller('ncaaController', function($scope, $http) {
         }
 
         //SET marked or paginated array to the table
-        $scope.paginated_data = $scope.data.slice($scope.pagination_details.from - 1, $scope.pagination_details.to);
+        $scope.pre_paginated_data = $scope.data.slice($scope.pagination_details.from - 1, $scope.pagination_details.to);
 
 
 
-        $scope.paginated_data.forEach((ele1, index1) => {
+        $scope.pre_paginated_data.forEach((ele1, index1) => {
             ele1.teamColorCodes.forEach((ele2, index2) => { 
-                $scope.paginated_data[index1].teamColorCodes[index2] = ele2.replace('#', '').substring(0,6);
+                $scope.pre_paginated_data[index1].teamColorCodes[index2] = '#' + ele2.replace('#', '').substring(0,6);
             });
         });
         
+        $scope.paginated_data = {...$scope.pre_paginated_data};
 
         
         //START - Pagination Links for medium size screen
@@ -232,11 +239,12 @@ function inverseChannelColour(channelColour){
     return (255 - parseInt(channelColour, 16)).toString(16);
 };
 
-function contrastColor(colour) {
+function contrastColor(color) {
+    const colour = color.replace('#', '');
     const r = inverseChannelColour(colour.substring(0,2));
     const g = inverseChannelColour(colour.substring(2,4));
     const b = inverseChannelColour(colour.substring(4,6));
-    return r.toString().padStart(2,"0") + g.toString().padStart(2,"0") + b.toString().padStart(2,"0");
+    return '#' + r.toString().padStart(2,"0") + g.toString().padStart(2,"0") + b.toString().padStart(2,"0");
 };
 
 app.filter('getContrastColor', function() {
