@@ -25,12 +25,34 @@ app.controller('ncaaController', function($scope, $http) {
                 $("#overlay").fadeOut();
             });
     };
-
-    $scope.getColor = function()
+    
+    $scope.save = function(next = null)
     {
-        return '#000000';
-    }
+        let new_data = {};
 
+        new_data.input = $scope.paginated_data;
+
+        $("#overlay").fadeIn();
+        $http.post('https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==',{
+            data: new_data
+        })
+            .then(function (response)
+            {
+                response.data.Output.forEach(ele => {
+                    if ($scope.max_colors < ele.teamColorCodes.length)
+                        $scope.max_colors = ele.teamColorCodes.length;
+                });
+
+                $scope.data = response.data.Output;
+                $scope.paginateData(1);
+
+                $("#overlay").fadeOut();
+            })
+            .catch(function ()
+            {
+                $("#overlay").fadeOut();
+            });
+    };
 
     $scope.paginated_data = [];
     
@@ -98,7 +120,17 @@ app.controller('ncaaController', function($scope, $http) {
 
         //SET marked or paginated array to the table
         $scope.paginated_data = $scope.data.slice($scope.pagination_details.from - 1, $scope.pagination_details.to);
-console.log($scope.paginated_data);
+
+
+
+        $scope.paginated_data.forEach(ele1 => {
+            ele1.teamColorCodes.forEach(ele2 => { 
+                ele2 = ele2.replace('#', '').substring(0,6);
+            });
+        });
+        
+
+        
         //START - Pagination Links for medium size screen
         $scope.pages = [];
 
@@ -162,7 +194,7 @@ console.log($scope.paginated_data);
             $scope.pages_more.push(i);
         }
         //END - Pagination Links for large size screen
-        $scope.setDropdownSelection();
+        // $scope.setDropdownSelection();
     };
 
     $scope.calcCursorPage = function (divisor)
@@ -176,7 +208,7 @@ console.log($scope.paginated_data);
 
 });
 
-app.filter('getColor', function() {
+app.filter('getContrastColor', function() {
 
     function inverseChannelColour(channelColour){
         return (255 - parseInt(channelColour, 16)).toString(16);

@@ -43,15 +43,15 @@
                         <tbody>
                         <tr ng-repeat="t in paginated_data">
                             <td class="align-middle">
-                                <span>{{$index+1}}</span>
+                                <span>{{pagination_details.from + $index}}</span>
                             </td>
                             <td class="align-middle" ng-repeat="c in t.teamColorCodes">
                                 <div class="d-flex justify-content-between">
-                                    <span ng-style="{'color': '#{{ c.replace('#', '').substring(0,6) }}'}">#{{c.replace('#', '').substring(0,6)}}</span>
-                                    <span ng-style="{'color': '#{{ c.replace('#', '').substring(0,6) | getColor }}'}">#{{c.replace('#', '').substring(0,6) | getColor}}</span>
+                                    <span ng-style="{'color': '#{{ c }}'}">#{{ c }}</span>
+                                    <span ng-style="{'color': '#{{ c | getContrastColor }}'}">#{{ c | getContrastColor }}</span>
                                 </div>
                                 <div class="teamCapsule px-2 py-1 my-auto" 
-                                    ng-style="{'background-color':'#{{c.replace('#', '').substring(0,6)}}', 'color': '#{{ c.replace('#', '').substring(0,6) | getColor }}'}">
+                                    ng-style="{'background-color': '#{{ c }}', 'color': '#{{ c | getContrastColor }}'}">
                                     <div class="row" style="height: 48px; min-width: 250px;">
                                         <div class="col-3">
                                             <div class="d-flex align-items-center h-100">
@@ -78,114 +78,120 @@
                 <div class="row px-6" ng-hide="students_added_count > 0">
                     <div class="col-12">
                         <div class="row mt-4">
-                            <div
-                                class="col-12 col-md-4 d-flex align-items-center justify-content-center justify-content-xl-start mb-2 mb-md-0">
-                                <p>
-                                    Showing {{pagination_details.from}} to {{pagination_details.to}}
-                                    in page:
-                                    <select class="custom-control d-inline"
-                                            ng-model="pagination_details.current_page"
-                                            ng-change="paginateData()"
-                                            ng-options="p for p in all_pages">
-                                    </select>
-                                    of {{data.length}} entries
-                                </p>
+                            <div class="col-12 col-lg-4">
+                                <div class="d-flex align-items-center justify-content-center justify-content-xl-start mb-2 mb-md-0">
+                                    <p>
+                                        Showing {{pagination_details.from}} to {{pagination_details.to}}
+                                        in page:
+                                        <select class="custom-control d-inline"
+                                                ng-model="pagination_details.current_page"
+                                                ng-change="paginateData()"
+                                                ng-options="p for p in all_pages">
+                                        </select>
+                                        of {{data.length}} entries
+                                    </p>
+                                </div>
                             </div>
-                            <div
-                                class="col-12 col-md-4 d-flex align-items-center justify-content-center">
-                                <ul class="pagination">
+                            <div class="col-12 col-lg-4">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <ul class="pagination mb-3">
 
-                                    <li class="page-item disabled"
-                                        ng-show="pagination_details.current_page == 1">
-                                        <a class="page-link">
-                                            <i class="fa-solid fa-circle-chevron-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"
-                                        ng-show="pagination_details.current_page != 1 && pagination_details.last_page != 1"
-                                        ng-click="paginateData(1)">
-                                        <a class="page-link">
-                                            <i class="fa-solid fa-circle-chevron-left"></i>
-                                        </a>
-                                    </li>
+                                        <li class="page-item disabled"
+                                            ng-show="pagination_details.current_page == 1">
+                                            <a class="page-link">
+                                                <i class="fa-solid fa-circle-chevron-left"></i>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"
+                                            ng-show="pagination_details.current_page != 1 && pagination_details.last_page != 1"
+                                            ng-click="paginateData(1)">
+                                            <a class="page-link">
+                                                <i class="fa-solid fa-circle-chevron-left"></i>
+                                            </a>
+                                        </li>
 
-                                    <li class="page-item disabled"
-                                        ng-show="pagination_details.current_page == 1">
-                                        <a class="page-link">
-                                            <i class="fa-solid fa-chevron-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"
-                                        ng-show="pagination_details.current_page != 1"
-                                        ng-click="paginateData(pagination_details.current_page - 1)">
-                                        <a class="page-link">
-                                            <i class="fa-solid fa-chevron-left"></i>
-                                        </a>
-                                    </li>
+                                        <li class="page-item disabled"
+                                            ng-show="pagination_details.current_page == 1">
+                                            <a class="page-link">
+                                                <i class="fa-solid fa-chevron-left"></i>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"
+                                            ng-show="pagination_details.current_page != 1"
+                                            ng-click="paginateData(pagination_details.current_page - 1)">
+                                            <a class="page-link">
+                                                <i class="fa-solid fa-chevron-left"></i>
+                                            </a>
+                                        </li>
 
-                                    <!-- {{--for Regular screens--}} -->
-                                    <li class="page-item d-none d-sm-block d-xxl-none"
-                                        ng-repeat="n in pages"
-                                        ng-class="{'active': pagination_details.current_page == n}"
-                                        ng-click="pagination_details.current_page == n ? '' : paginateData(n)">
-                                        <a class="page-link">{{n}}</a>
-                                    </li>
-                                    <!-- {{--for Large screens--}} -->
-                                    <li class="page-item d-none d-xxl-block"
-                                        ng-repeat="n in pages_more"
-                                        ng-class="{'active': pagination_details.current_page == n}"
-                                        ng-click="pagination_details.current_page == n ? '' : paginateData(n)">
-                                        <a class="page-link">{{n}}</a>
-                                    </li>
-                                    <!-- {{--for Small screens--}} -->
-                                    <li class="page-item d-sm-none active">
-                                        <a class="page-link">{{pagination_details.current_page}}</a>
-                                        s
-                                    </li>
+                                        <!-- {{--for Regular screens--}} -->
+                                        <li class="page-item d-none d-sm-block d-xxl-none"
+                                            ng-repeat="n in pages"
+                                            ng-class="{'active': pagination_details.current_page == n}"
+                                            ng-click="pagination_details.current_page == n ? '' : paginateData(n)">
+                                            <a class="page-link">{{n}}</a>
+                                        </li>
+                                        <!-- {{--for Large screens--}} -->
+                                        <li class="page-item d-none d-xxl-block"
+                                            ng-repeat="n in pages_more"
+                                            ng-class="{'active': pagination_details.current_page == n}"
+                                            ng-click="pagination_details.current_page == n ? '' : paginateData(n)">
+                                            <a class="page-link">{{n}}</a>
+                                        </li>
+                                        <!-- {{--for Small screens--}} -->
+                                        <li class="page-item d-sm-none active">
+                                            <a class="page-link">{{pagination_details.current_page}}</a>
+                                            s
+                                        </li>
 
-                                    <li class="page-item disabled"
-                                        ng-show="pagination_details.last_page == pagination_details.current_page">
-                                        <a class="page-link">
-                                            <i class="fa-solid fa-chevron-right"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"
-                                        ng-show="pagination_details.last_page != pagination_details.current_page"
-                                        ng-click="paginateData(pagination_details.current_page + 1)">
-                                        <a class="page-link">
-                                            <i class="fa-solid fa-chevron-right"></i>
-                                        </a>
-                                    </li>
+                                        <li class="page-item disabled"
+                                            ng-show="pagination_details.last_page == pagination_details.current_page">
+                                            <a class="page-link">
+                                                <i class="fa-solid fa-chevron-right"></i>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"
+                                            ng-show="pagination_details.last_page != pagination_details.current_page"
+                                            ng-click="paginateData(pagination_details.current_page + 1)">
+                                            <a class="page-link">
+                                                <i class="fa-solid fa-chevron-right"></i>
+                                            </a>
+                                        </li>
 
-                                    <li class="page-item disabled"
-                                        ng-show="pagination_details.last_page == pagination_details.current_page">
-                                        <a class="page-link">
-                                            <i class="fa-solid fa-circle-chevron-right"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"
-                                        ng-show="pagination_details.last_page != pagination_details.current_page"
-                                        ng-click="paginateData(pagination_details.last_page)">
-                                        <a class="page-link">
-                                            <i class="fa-solid fa-circle-chevron-right"></i>
-                                        </a>
-                                    </li>
+                                        <li class="page-item disabled"
+                                            ng-show="pagination_details.last_page == pagination_details.current_page">
+                                            <a class="page-link">
+                                                <i class="fa-solid fa-circle-chevron-right"></i>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"
+                                            ng-show="pagination_details.last_page != pagination_details.current_page"
+                                            ng-click="paginateData(pagination_details.last_page)">
+                                            <a class="page-link">
+                                                <i class="fa-solid fa-circle-chevron-right"></i>
+                                            </a>
+                                        </li>
 
-                                </ul>
+                                    </ul>
+                                </div>
                             </div>
-                            <div
-                                class="col-12 col-md-4 d-flex align-items-center justify-content-center justify-content-xl-end">
-                                <p>
-                                    Show
-                                    <select class="custom-control d-inline"
-                                            ng-model="per_page_filter"
-                                            ng-change="calcCursorPage(per_page_filter);"
-                                            ng-options="ps for ps in page_size">
-                                    </select>
-                                    entries per page
-                                </p>
+                            <div class="col-12 col-lg-4">
+                                <div class="d-flex align-items-center justify-content-center justify-content-xl-end">
+                                    <p>
+                                        Show
+                                        <select class="custom-control d-inline"
+                                                ng-model="per_page_filter"
+                                                ng-change="calcCursorPage(per_page_filter);"
+                                                ng-options="ps for ps in page_size">
+                                        </select>
+                                        entries per page
+                                    </p>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Button -->
+                        <button class="btn btn-success" ng-click="save()">Save</button>
                     </div>
                 </div>
             </div>
