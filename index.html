@@ -29,6 +29,10 @@
                     border-radius: 5px;
                     line-height: 1.2;
                 }
+                .teamCapsule-active
+                {
+                    border: 3px solid orange;
+                }
             </style>
 
             <div class="container py-5">
@@ -51,6 +55,8 @@
                                     <span ng-style="{'color': '#{{ c | getContrastColor }}'}">#{{ c | getContrastColor }}</span>
                                 </div>
                                 <div class="teamCapsule px-2 py-1 my-auto" 
+                                    ng-click="setApprovedColor(t, c)"
+                                    ng-class="c === t.approvedColor ? 'teamCapsule-active' : ''"
                                     ng-style="{'background-color': '#{{ c }}', 'color': '#{{ c | getContrastColor }}'}">
                                     <div class="row" style="height: 48px; min-width: 250px;">
                                         <div class="col-3">

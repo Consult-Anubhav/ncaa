@@ -54,6 +54,12 @@ app.controller('ncaaController', function($scope, $http) {
             });
     };
 
+    $scope.setApprovedColor = function (team, color)
+    {
+        team.approvedColor = color;
+        team.textColor = contrastColor(color);
+    }
+
     $scope.paginated_data = [];
     
     $scope.pagination_details = {};
@@ -208,16 +214,20 @@ app.controller('ncaaController', function($scope, $http) {
 
 });
 
+function inverseChannelColour(channelColour){
+    return (255 - parseInt(channelColour, 16)).toString(16);
+};
+
+function contrastColor(colour) {
+    const r = inverseChannelColour(colour.substring(0,2));
+    const g = inverseChannelColour(colour.substring(2,4));
+    const b = inverseChannelColour(colour.substring(4,6));
+    return r.toString().padStart(2,"0") + g.toString().padStart(2,"0") + b.toString().padStart(2,"0");
+};
+
 app.filter('getContrastColor', function() {
 
-    function inverseChannelColour(channelColour){
-        return (255 - parseInt(channelColour, 16)).toString(16);
-      }
-
     return function(colour) {
-        const r = inverseChannelColour(colour.substring(0,2));
-        const g = inverseChannelColour(colour.substring(2,4));
-        const b = inverseChannelColour(colour.substring(4,6));
-        return r.toString().padStart(2,"0") + g.toString().padStart(2,"0") + b.toString().padStart(2,"0");
+        return contrastColor(colour);
     };
 });
