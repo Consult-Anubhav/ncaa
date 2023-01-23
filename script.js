@@ -32,27 +32,41 @@ app.controller('ncaaController', function($scope, $http) {
 
         new_data.input = $scope.paginated_data;
 
-        $("#overlay").fadeIn();
-        $http.post('https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==',{
-            data: new_data
-        })
-            .then(function (response)
-            {
-                response.data.Output.forEach(ele => {
-                    if ($scope.max_colors < ele.teamColorCodes.length)
-                        $scope.max_colors = ele.teamColorCodes.length;
-                });
+        submitData(new_data);
 
-                $scope.data = response.data.Output;
-                $scope.paginateData(1);
+        // $("#overlay").fadeIn();
+        // $http.post('https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==',{
+        //     data: new_data
+        // })
+        //     .then(function (response)
+        //     {
+        //         response.data.Output.forEach(ele => {
+        //             if ($scope.max_colors < ele.teamColorCodes.length)
+        //                 $scope.max_colors = ele.teamColorCodes.length;
+        //         });
 
-                $("#overlay").fadeOut();
-            })
-            .catch(function ()
-            {
-                $("#overlay").fadeOut();
-            });
+        //         $scope.data = response.data.Output;
+        //         $scope.paginateData(1);
+
+        //         $("#overlay").fadeOut();
+        //     })
+        //     .catch(function ()
+        //     {
+        //         $("#overlay").fadeOut();
+        //     });
     };
+
+    async function submitData(data)
+    {
+        fetch('https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==', {
+            method: 'POST',
+            mode :'no-cors',
+            body : JSON.stringify(data),
+        }).then( response => {
+            // response.json();
+        } )
+        // .then( data => console.log(data) )
+    }
 
     $scope.setApprovedColor = function (team, color)
     {
