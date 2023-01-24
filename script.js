@@ -71,10 +71,12 @@ app.controller('ncaaController', function($scope, $http) {
             method: 'POST',
             mode :'no-cors',
             body : JSON.stringify(data),
-        }).then( response => {
-            // response.json();
+        }).then( (response) => {
+            $('#successModal').modal('show');
         } )
-        // .then( data => console.log(data) )
+        .catch ((error) => {
+            $('#failureModal').modal('show');
+        })
     }
     
     $scope.openColorPicker = function(id)

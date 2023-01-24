@@ -23,10 +23,168 @@
         <div id="root" ng-app="ncaa" ng-controller="ncaaController">
             
             <style>
+                
+                ::-webkit-scrollbar-track
+                {
+                    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+                    border-radius: 20px;
+                    background-color: #F5F5F5;
+                    visibility: hidden;
+                }
+                ::-webkit-scrollbar-track:hover
+                {
+                    visibility: visible;
+                }
+                ::-webkit-scrollbar
+                {
+                    width: 10px;
+                    visibility: visible;
+                }
+                ::-webkit-scrollbar-thumb
+                {
+                    visibility: hidden;
+                    border-radius: 10px;
+                    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+                    background-color: #ababab;
+                }
+                ::-webkit-scrollbar-thumb:hover
+                {
+                    visibility: visible;
+                }
+
+                ::-webkit-scrollbar:horizontal
+                {
+                    height: 10px;
+                    visibility: visible;
+                }
+                ::-webkit-scrollbar-thumb:horizontal
+                {
+                    visibility: hidden;
+                    border-radius: 10px;
+                    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+                    background-color: #ababab;
+                }
+                ::-webkit-scrollbar-thumb:horizontal:hover
+                {
+                    visibility: visible;
+                }
+
+                
+/*Start - Stacked table style*/
+@media  (max-width: 575px)
+{
+    .table-sm-stack table, .table-sm-stack tbody
+    {
+        display: contents !important;
+    }
+    .table-sm-stack thead
+    {
+        display: none !important;
+    }
+    .table-sm-stack table, .table-sm-stack tbody, .table-sm-stack tr
+    {
+        width: 100% !important;
+    }
+    .table-sm-stack tr
+    {
+        width: auto !important;
+    }
+    .table-sm-stack td
+    {
+        display: inline-block;
+    }
+    .table-sm-stack tr
+    {
+        display: block;
+    }
+    .table-sm-stack td:before
+    {
+        content: attr(data-title);
+        font-weight: bold;
+    }
+
+    .table-sm-striped tr:nth-child(even)
+    {
+        background: #ececec;
+    }
+    .table-sm-striped tr:nth-child(odd)
+    {
+        background: white;
+    }
+
+    .table-stack-td-100 td
+    {
+        width: 100% !important;
+    }
+}
+
+.table-stack table, .table-stack tbody
+{
+    display: contents !important;
+}
+.table-stack thead
+{
+    display: none !important;
+}
+.table-stack table, .table-stack tbody, .table-stack tr
+{
+    width: 100% !important;
+}
+.table-stack tr
+{
+    width: auto !important;
+}
+.table-stack td
+{
+    display: inline-block;
+}
+.table-stack tr
+{
+    display: block;
+}
+.table-stack td:before
+{
+    content: attr(data-title);
+    font-weight: bold;
+}
+.table-td-pb-0 td
+{
+    padding-bottom: 0!important;
+}
+.table-th-py-0 th
+{
+    padding-bottom: 0!important;
+    padding-top: 0!important;
+}
+.table-td-py-0 td
+{
+    padding-bottom: 0!important;
+    padding-top: 0!important;
+}
+.table-th-border-0 th
+{
+    border: 0!important;
+
+    box-shadow: inset 0 -0.13px 0 #000000;
+}
+
+.table-new-striped tbody tr:nth-child(odd)
+{
+    background: #ececec !important;
+}
+.table-new-striped tbody tr:nth-child(even)
+{
+    background: white !important;
+}
+
+
+/*End - Stacked table style*/
+
+
                 .teamCapsule
                 {
                     border: 1px solid black;
-                    border-radius: 5px;
+                    border-radius: 7px;
                     line-height: 1.2;
                 }
                 .teamCapsule-active
@@ -37,24 +195,24 @@
             </style>
 
             <div class="container py-5">
-                <div class="table-responsive">
-                    <table class="table d-table table-sm-stack table-sm-striped mb-0 table-borderless" id="table">
+                <div class="table-responsive" style="border: 1px solid black; border-radius: 15px !important;">
+                    <table class="table d-table table-sm-stack table-new-striped mb-0 table-borderless" id="table">
                         <thead>
                         <tr>
-                            <th colspan="{{max_colors + 1}}">Teams</th>
+                            <th colspan="{{max_colors + 1}}" style="font-size: 24px">Teams</th>
                         </tr>
                         <tr>
-                            <th>#</th>
-                            <th>Selected</th>
+                            <th style="left:0; position: sticky !important; width:80px">#</th>
+                            <th style="left:80; position: sticky !important;">Selected</th>
                             <th colspan="{{max_colors}}">Options</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="t in paginated_data">
-                            <td class="align-middle">
+                            <td class="align-middle bg-white" style="left:0; position: sticky !important;">
                                 <span>{{pagination_details.from + $index}}</span>
                             </td>
-                            <td class="align-middle" style="min-width: 260px;">
+                            <td class="align-middle" style="min-width: 260px; left:80; position: sticky !important;">
                                 <div ng-if="t.approvedColor">
                                     <div class="d-flex justify-content-between">
                                         <div>
@@ -241,6 +399,38 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="modal fade bd-example-modal-sm" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModal" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content bg-success text-white">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Success.</h5>
+                        <button type="button" class="close bg-success border-0 text-white" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Your data has been submitted successfully.
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="modal fade bd-example-modal-sm" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="successModal" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content bg-danger text-white">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Success.</h5>
+                            <button type="button" class="close bg-danger border-0 text-white" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Your data has been submitted successfully.
+                        </div>
+                      </div>
                 </div>
             </div>
             
