@@ -168,13 +168,22 @@
     box-shadow: inset 0 -0.13px 0 #000000;
 }
 
-.table-new-striped tbody tr:nth-child(odd)
+.table-new-striped thead tr:nth-child(2)
 {
-    background: #ececec !important;
+    border-top: 1px solid black;
 }
-.table-new-striped tbody tr:nth-child(even)
+.table-new-striped tbody tr td:nth-child(2),
+.table-new-striped thead tr th:nth-child(2)
 {
-    background: white !important;
+    border-right: 1px solid black;
+}
+.table-new-striped tbody tr:nth-child(odd) td
+{
+    background: #ececec;
+}
+.table-new-striped tbody tr:nth-child(even) td
+{
+    background: white;
 }
 
 
@@ -202,17 +211,17 @@
                             <th colspan="{{max_colors + 1}}" style="font-size: 24px">Teams</th>
                         </tr>
                         <tr>
-                            <th style="left:0; position: sticky !important; width:80px">#</th>
-                            <th style="left:80; position: sticky !important;">Selected</th>
+                            <th style="left:0; position: sticky !important; min-width:60px !important; z-index:100">#</th>
+                            <th style="left:60px; position: sticky !important; z-index:100">Selected</th>
                             <th colspan="{{max_colors}}">Options</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="t in paginated_data">
-                            <td class="align-middle bg-white" style="left:0; position: sticky !important;">
+                            <td class="align-middle" style="left:0; position: sticky !important; min-width:60px !important; z-index:100">
                                 <span>{{pagination_details.from + $index}}</span>
                             </td>
-                            <td class="align-middle" style="min-width: 260px; left:80; position: sticky !important;">
+                            <td class="align-middle" style="min-width: 260px; left:60px; position: sticky !important; z-index:100">
                                 <div ng-if="t.approvedColor">
                                     <div class="teamCapsule px-2 py-1 my-auto teamCapsule-active"
                                         ng-style="{ 'background-color': t.approvedColor, 'color': t.textColor }">
