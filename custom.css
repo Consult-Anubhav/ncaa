@@ -1,0 +1,133 @@
+
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+    border-radius: 20px;
+    background-color: #F5F5F5;
+    visibility: hidden;
+}
+::-webkit-scrollbar-track:hover
+{
+    visibility: visible;
+}
+::-webkit-scrollbar
+{
+    width: 10px;
+    visibility: visible;
+}
+::-webkit-scrollbar-thumb
+{
+    visibility: hidden;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+    background-color: #ababab;
+}
+::-webkit-scrollbar-thumb:hover
+{
+    visibility: visible;
+}
+
+::-webkit-scrollbar:horizontal
+{
+    height: 10px;
+    visibility: visible;
+}
+::-webkit-scrollbar-thumb:horizontal
+{
+    visibility: hidden;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+    background-color: #ababab;
+}
+::-webkit-scrollbar-thumb:horizontal:hover
+{
+    visibility: visible;
+}
+
+                
+/*Start - Stacked table style*/
+@media  (max-width: 767px)
+{
+    .table-sm-stack table, .table-sm-stack tbody
+    {
+        display: contents !important;
+    }
+    .table-sm-stack thead
+    {
+        display: none !important;
+    }
+    .table-sm-stack table, .table-sm-stack tbody, .table-sm-stack tr
+    {
+        width: 100% !important;
+    }
+    .table-sm-stack tr
+    {
+        width: auto !important;
+    }
+    .table-sm-stack td
+    {
+        display: block;
+    }
+    .table-sm-stack tr
+    {
+        display: block;
+    }
+    .table-sm-stack td:before
+    {
+        content: attr(data-title);
+        font-weight: bold;
+    }
+
+    .table-sm-striped tr:nth-child(even)
+    {
+        background: #ececec;
+    }
+    .table-sm-striped tr:nth-child(odd)
+    {
+        background: white;
+    }
+
+    .table-stack-td-100 td
+    {
+        width: 100% !important;
+    }
+}
+
+.table-new-striped thead tr:nth-child(2)
+{
+    border-top: 1px solid black;
+}
+@media (min-width: 768px)
+{
+    .table-new-striped tbody tr td:nth-child(2),
+    .table-new-striped thead tr:nth-child(2) th:nth-child(2)
+    {
+        border-right: 1px solid black;
+    }
+}
+.table-new-striped tbody tr:nth-child(odd),
+.table-new-striped tbody tr:nth-child(odd) td
+{
+    background: #ececec;
+}
+.table-new-striped tbody tr:nth-child(even),
+.table-new-striped tbody tr:nth-child(even) td
+{
+    background: white;
+}
+
+
+/*End - Stacked table style*/
+
+
+.teamCapsule
+{
+    border: 1px solid black;
+    border-radius: 7px;
+    line-height: 1.2;
+}
+.teamCapsule-active
+{  
+    box-shadow: -1px -1px 5px 0 orangered, 1px 1px 5px 0 blue;
+    border: 1px solid white;
+}
