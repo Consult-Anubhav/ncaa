@@ -79,7 +79,6 @@ app.controller('ncaaController', function($scope, $http) {
     
     $scope.openColorPicker = function(id)
     {
-        console.log(id);
         $('#' + id).trigger('click');
     }
 
