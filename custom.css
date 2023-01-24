@@ -52,7 +52,7 @@
     {
         display: contents !important;
     }
-    .table-sm-stack thead
+    .table-sm-stack thead tr:nth-child(2)
     {
         display: none !important;
     }
