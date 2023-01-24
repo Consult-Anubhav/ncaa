@@ -163,6 +163,8 @@ app.controller('ncaaController', function($scope, $http) {
             });
         });
         
+        $scope.paginated_data = [];
+        
         $scope.pre_paginated_data.forEach(ele => {
             $scope.paginated_data.push(ele);
         });
