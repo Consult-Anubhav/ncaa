@@ -30,7 +30,16 @@ app.controller('ncaaController', function($scope, $http) {
     {
         let new_data = {};
 
-        new_data.input = $scope.paginated_data;
+        new_data.input = [];
+
+        $scope.pre_paginated_data.forEach(ele => {
+            if (ele.approvedColor)
+                new_data.input.push({
+                    'teamName': ele.teamName,
+                    'textColor': ele.textColor,
+                    'approvedColor': ele.approvedColor
+                });
+        });
 
         submitData(new_data);
 
@@ -56,7 +65,7 @@ app.controller('ncaaController', function($scope, $http) {
         //     });
     };
 
-    async function submitData(data)
+    async function submitData(data = {})
     {
         fetch('https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==', {
             method: 'POST',
@@ -147,16 +156,15 @@ app.controller('ncaaController', function($scope, $http) {
         //SET marked or paginated array to the table
         $scope.pre_paginated_data = $scope.data.slice($scope.pagination_details.from - 1, $scope.pagination_details.to);
 
-
-
         $scope.pre_paginated_data.forEach((ele1, index1) => {
             ele1.teamColorCodes.forEach((ele2, index2) => { 
                 $scope.pre_paginated_data[index1].teamColorCodes[index2] = '#' + ele2.replace('#', '').substring(0,6);
             });
         });
         
-        $scope.paginated_data = {...$scope.pre_paginated_data};
-
+        $scope.pre_paginated_data.forEach(ele => {
+            $scope.paginated_data.push(ele);
+        });
         
         //START - Pagination Links for medium size screen
         $scope.pages = [];
