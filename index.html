@@ -289,8 +289,6 @@
                 <!-- Button -->                
                 <div class="d-flex justify-content-center w-100 mt-3">
                     <button class="btn btn-primary mx-2" ng-click="save();">Save</button>
-                    <button class="btn btn-primary mx-2" ng-show="pagination_details.last_page != pagination_details.current_page"
-                        ng-click="save(); paginateData(pagination_details.current_page + 1);">Save & Next</button>
                 </div>
 
                 <div class="row px-6" ng-hide="students_added_count > 0">
@@ -416,7 +414,7 @@
                   <div class="modal-content bg-success text-white">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Success.</h5>
-                        <button type="button" class="close bg-success border-0 text-white" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close bg-success border-0 text-white" data-bs-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -432,7 +430,7 @@
                     <div class="modal-content bg-danger text-white">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Success.</h5>
-                            <button type="button" class="close bg-danger border-0 text-white" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close bg-danger border-0 text-white" data-bs-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
                         </div>

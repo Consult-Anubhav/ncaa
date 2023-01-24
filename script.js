@@ -26,7 +26,7 @@ app.controller('ncaaController', function($scope, $http) {
             });
     };
     
-    $scope.save = function(next = null)
+    $scope.save = function()
     {
         let new_data = {};
 
@@ -93,7 +93,7 @@ app.controller('ncaaController', function($scope, $http) {
     $scope.paginated_data = [];
     
     $scope.pagination_details = {};
-    $scope.per_page_filter = 25;
+    $scope.per_page_filter = 10;
     $scope.currentPage = 1;
     $scope.startPage = 0;
     $scope.endPage = 0;
