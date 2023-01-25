@@ -6,7 +6,7 @@ app.controller('ncaaController', function($scope, $http) {
 
     $scope.init = function()
     {
-        $("#overlay").fadeIn();
+        $("#preloader").fadeIn();
         $http.get('https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==')
             .then(function (response)
             {
@@ -18,16 +18,17 @@ app.controller('ncaaController', function($scope, $http) {
                 $scope.data = response.data.Output;
                 $scope.paginateData(1);
 
-                $("#overlay").fadeOut();
+                $("#preloader").fadeOut();
             })
             .catch(function ()
             {
-                $("#overlay").fadeOut();
+                $("#preloader").fadeOut();
             });
     };
     
     $scope.save = function()
     {
+        $("#preloader").fadeIn();
         let new_data = {};
 
         new_data.input = [];
@@ -42,27 +43,8 @@ app.controller('ncaaController', function($scope, $http) {
         });
 
         submitData(new_data);
-
-        // $("#overlay").fadeIn();
-        // $http.post('https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==',{
-        //     data: new_data
-        // })
-        //     .then(function (response)
-        //     {
-        //         response.data.Output.forEach(ele => {
-        //             if ($scope.max_colors < ele.teamColorCodes.length)
-        //                 $scope.max_colors = ele.teamColorCodes.length;
-        //         });
-
-        //         $scope.data = response.data.Output;
-        //         $scope.paginateData(1);
-
-        //         $("#overlay").fadeOut();
-        //     })
-        //     .catch(function ()
-        //     {
-        //         $("#overlay").fadeOut();
-        //     });
+        
+        $("#preloader").fadeOut();
     };
 
     async function submitData(data = {})
@@ -101,6 +83,8 @@ app.controller('ncaaController', function($scope, $http) {
     
     $scope.paginateData = function (page_number = null)
     {
+        $("#preloader").fadeIn();
+
         if (page_number != null)
         {
             $scope.pagination_details.current_page = page_number;
@@ -232,7 +216,8 @@ app.controller('ncaaController', function($scope, $http) {
             $scope.pages_more.push(i);
         }
         //END - Pagination Links for large size screen
-        // $scope.setDropdownSelection();
+
+        $("#preloader").fadeOut();
     };
 
     $scope.calcCursorPage = function (divisor)
