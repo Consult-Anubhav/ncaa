@@ -78,6 +78,14 @@
                                                 ng-model="t.textColor" style="width: 13px; height:14px; padding: 0;">
                                             <span ng-style="{ 'color': t.textColor }" 
                                                 ng-click="openColorPicker('text_picker_' + $index)">{{ t.textColor }}</span>
+                                            <span ng-click="t.textColor='#FFFFFF'">
+                                                <input type="color" id="text_picker_white_{{$index}}" disabled
+                                                    value="#FFFFFF" style="width: 13px; height:14px; padding: 0;" />
+                                            </span>
+                                            <span ng-click="t.textColor='#000000'">
+                                                <input type="color" id="text_picker_white_{{$index}}" disabled
+                                                    value="#000000" style="width: 13px; height:14px; padding: 0;" />
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -100,9 +108,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span ng-style="{'color': c }">{{ c }}</span>
-                                        <span ng-style="{'color': '{{ c | getContrastColor }}'}">{{ c | getContrastColor }}</span>
+                                    <div class="d-flex justify-content-between" style="height: 24px;">
+                                        <!-- <span ng-style="{'color': c }">{{ c }}</span> -->
+                                        <!-- <span ng-style="{'color': '{{ c | getContrastColor }}'}">{{ c | getContrastColor }}</span> -->
                                     </div>
                                 </div>
                             </td>
