@@ -3,11 +3,26 @@ app.controller('ncaaController', function($scope, $http) {
     
     $scope.data = [];
     $scope.max_colors = 0;
+    
+    $scope.api = {
+        ncaa: {
+            fetch: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==',
+            save: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA=='
+        }
+    };
+
+    // test api
+    // $scope.api = {
+    //     ncaa: {
+    //         fetch: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==',
+    //         save: ''
+    //     }
+    // };
 
     $scope.init = function()
     {
         $("#preloader").fadeIn();
-        $http.get('https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==')
+        $http.get($scope.api.ncaa.fetch)
             .then(function (response)
             {
                 response.data.Output.forEach(ele => {
@@ -34,7 +49,7 @@ app.controller('ncaaController', function($scope, $http) {
         new_data.input = [];
 
         $scope.pre_paginated_data.forEach(ele => {
-            if (ele.approvedColor)
+            if (ele.selected && ele.selected == 1)
                 new_data.input.push({
                     'teamName': ele.teamName,
                     'textColor': ele.textColor,
@@ -49,7 +64,7 @@ app.controller('ncaaController', function($scope, $http) {
 
     async function submitData(data = {})
     {
-        fetch('https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==', {
+        fetch($scope.api.ncaa.save, {
             method: 'POST',
             mode :'no-cors',
             body : JSON.stringify(data),
@@ -68,6 +83,7 @@ app.controller('ncaaController', function($scope, $http) {
 
     $scope.setApprovedColor = function (team, color)
     {
+        team.selected = 1;
         team.approvedColor = color;
         team.textColor = contrastColor(color);
     }

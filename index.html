@@ -50,7 +50,12 @@
                             </td>
                             <td data-title="Selected : " class="align-middle" style="min-width: 260px; left:60px; position: sticky !important; z-index:100">
                                 <div style="min-height:82px;">
-                                    <div ng-if="t.approvedColor" class="teamCapsule px-2 py-1 my-auto teamCapsule-active"
+                                    <div ng-if="t.selected && t.selected==1" class="d-flex justify-content-end">
+                                        <span ng-click="t.selected=0" class="close-icon text-danger" data-effect="fadeOut">
+                                            <i class="fa fa-times"></i>
+                                        </span>
+                                    </div>
+                                    <div ng-if="t.selected && t.selected==1" class="teamCapsule px-2 py-1 my-auto teamCapsule-active"
                                         ng-style="{ 'background-color': t.approvedColor, 'color': t.textColor }">
                                         <div class="row" style="height: 48px; min-width: 250px;">
                                             <div class="col-3">
@@ -65,7 +70,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div ng-if="t.approvedColor" class="d-flex justify-content-md-between">
+                                    <div ng-if="t.selected && t.selected==1" class="d-flex justify-content-md-between">
                                         <div class="mx-2">
                                             <input type="color" id="bg_picker_{{$index}}" 
                                                 ng-model="t.approvedColor" style="width: 13px; height:14px; padding: 0;">
@@ -92,6 +97,8 @@
                             </td>
                             <td data-title="Option : " class="align-middle" ng-repeat="c in t.teamColorCodes">
                                 <div>
+                                    <div style="height: 24px;">
+                                    </div>
                                     <div class="teamCapsule px-2 py-1 my-auto" 
                                         ng-click="setApprovedColor(t, c)"
                                         ng-style="{'background-color':  c , 'color': '{{ c | getContrastColor }}'}">
