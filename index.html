@@ -57,6 +57,7 @@
                                         </span>
                                     </div>
                                     <div ng-if="t.selection && t.selection.isselected" class="teamCapsule px-2 py-1 my-auto teamCapsule-active"
+                                        ng-click="openComment(t)"
                                         ng-style="{ 'background-color': t.selection.selectedColor, 'color': t.selection.selectedfontColor }">
                                         <div class="row" style="height: 48px; min-width: 250px; max-width: 250px;">
                                             <div class="col-3">
@@ -73,7 +74,7 @@
                                     </div>
                                     <div ng-if="t.selection && t.selection.isselected" class="d-flex justify-content-md-between">
                                         <div class="mx-2">
-                                            <input type="color" id="bg_picker_{{$index}}" 
+                                            <input type="color" id="bg_picker_{{$index}}" ng-change="t.temp_selected = true"
                                                 ng-model="t.selection.selectedColor" style="width: 13px; height:14px; padding: 0;">
                                             <span ng-style="{ 'color': t.selection.selectedColor }" 
                                                 ng-click="openColorPicker('bg_picker_' + $index)"
@@ -84,11 +85,11 @@
                                                 ng-model="t.selection.selectedfontColor" style="width: 13px; height:14px; padding: 0;">
                                             <span ng-style="{ 'color': t.selection.selectedfontColor }" 
                                                 ng-click="openColorPicker('text_picker_' + $index)">{{ t.selection.selectedfontColor }}</span> -->
-                                            <span ng-click="t.selection.selectedfontColor='#FFFFFF'">
+                                            <span ng-click="t.selection.selectedfontColor='#FFFFFF'; t.temp_selected = true;">
                                                 <input type="color" id="text_picker_white_{{$index}}" disabled
                                                     value="#FFFFFF" style="width: 13px; height:14px; padding: 0;" />
                                             </span>
-                                            <span ng-click="t.selection.selectedfontColor='#000000'">
+                                            <span ng-click="t.selection.selectedfontColor='#000000'; t.temp_selected = true;">
                                                 <input type="color" id="text_picker_white_{{$index}}" disabled
                                                     value="#000000" style="width: 13px; height:14px; padding: 0;" />
                                             </span>
@@ -282,6 +283,28 @@
                 </div>
             </div>
             
+            <div class="modal" tabindex="-1" role="dialog" id="commentModal">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" ng-bind="modal_row.teamName"></h5>
+                      <button type="button" class="close bg-white border-0" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" rows="2" placeholder="Enter Your Comment" autocomplete="off"
+                               ng-model="modal_row.comment" ng-change="modal_row.temp_selected = true">
+                        </textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <!-- <button type="button" class="btn btn-primary">Save</button> -->
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
         </div>
     </body>
 </html>

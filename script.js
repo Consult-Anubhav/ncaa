@@ -15,7 +15,8 @@ app.controller('ncaaController', function($scope, $http) {
     $scope.api = {
         ncaa: {
             fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
-            save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+            // save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+            save: ''
         }
     };
 
@@ -49,11 +50,12 @@ app.controller('ncaaController', function($scope, $http) {
         new_data.input = [];
 
         $scope.pre_paginated_data.forEach(ele => {
-            if (ele.selection && ele.selection.isselected == true)
+            if (ele.selection && ele.selection.isselected == true && ele.temp_selected == true)
                 new_data.input.push({
                     'teamName': ele.teamName,
                     'textColor': ele.selection.selectedfontColor,
-                    'approvedColor': ele.selection.selectedColor
+                    'approvedColor': ele.selection.selectedColor,
+                    'comment': ele.comment ? ele.comment : null
                 });
         });
 
@@ -79,6 +81,12 @@ app.controller('ncaaController', function($scope, $http) {
     $scope.openColorPicker = function(id)
     {
         $('#' + id).trigger('click');
+    }
+    
+    $scope.openComment = function(t)
+    {
+        $scope.modal_row = t;
+        $('#commentModal').modal('show');
     }
 
     $scope.setApprovedColor = function (team, color)
