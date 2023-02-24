@@ -4,20 +4,20 @@ app.controller('ncaaController', function($scope, $http) {
     $scope.data = [];
     $scope.max_colors = 0;
     
-    $scope.api = {
-        ncaa: {
-            fetch: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==',
-            save: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA=='
-        }
-    };
-
-    // test api
     // $scope.api = {
     //     ncaa: {
     //         fetch: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==',
-    //         save: ''
+    //         save: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA=='
     //     }
     // };
+
+    // test api
+    $scope.api = {
+        ncaa: {
+            fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+            save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+        }
+    };
 
     $scope.init = function()
     {
@@ -49,11 +49,11 @@ app.controller('ncaaController', function($scope, $http) {
         new_data.input = [];
 
         $scope.pre_paginated_data.forEach(ele => {
-            if (ele.selected && ele.selected == 1)
+            if (ele.selection && ele.selection.isselected == true)
                 new_data.input.push({
                     'teamName': ele.teamName,
-                    'textColor': ele.textColor,
-                    'approvedColor': ele.approvedColor
+                    'textColor': ele.selection.selectedfontColor,
+                    'approvedColor': ele.selection.selectedColor
                 });
         });
 
@@ -83,9 +83,14 @@ app.controller('ncaaController', function($scope, $http) {
 
     $scope.setApprovedColor = function (team, color)
     {
-        team.selected = 1;
-        team.approvedColor = color;
-        team.textColor = contrastColor(color);
+        team.selection = {};
+        team.selection.isselected = true;
+        team.selection.selectedColor = color;
+        team.selection.selectedfontColor = contrastColor(color);
+
+        team.temp_selected = true;
+        // team.approvedColor = color;
+        // team.textColor = contrastColor(color);
     }
 
     $scope.paginated_data = [];
@@ -251,13 +256,31 @@ function inverseChannelColour(channelColour){
     return (255 - parseInt(channelColour, 16)).toString(16);
 };
 
+// function contrastColor(color) {
+//     const colour = color.replace('#', '');
+//     const r = inverseChannelColour(colour.substring(0,2));
+//     const g = inverseChannelColour(colour.substring(2,4));
+//     const b = inverseChannelColour(colour.substring(4,6));
+//     return '#' + r.toString().padStart(2,"0") + g.toString().padStart(2,"0") + b.toString().padStart(2,"0");
+// };
+
 function contrastColor(color) {
-    const colour = color.replace('#', '');
-    const r = inverseChannelColour(colour.substring(0,2));
-    const g = inverseChannelColour(colour.substring(2,4));
-    const b = inverseChannelColour(colour.substring(4,6));
-    return '#' + r.toString().padStart(2,"0") + g.toString().padStart(2,"0") + b.toString().padStart(2,"0");
-};
+    var lightColor="#FFFFFF", darkColor="000000";
+    var color = color.replace('#', '');
+    // var color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
+    var r = parseInt(color.substring(0, 2), 16); // hexToR
+    var g = parseInt(color.substring(2, 4), 16); // hexToG
+    var b = parseInt(color.substring(4, 6), 16); // hexToB
+    var uicolors = [r / 255, g / 255, b / 255];
+    var c = uicolors.map((col) => {
+      if (col <= 0.03928) {
+        return col / 12.92;
+      }
+      return Math.pow((col + 0.055) / 1.055, 2.4);
+    });
+    var L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
+    return (L > 0.179) ? darkColor : lightColor;
+  }
 
 app.filter('getContrastColor', function() {
 

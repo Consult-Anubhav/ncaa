@@ -50,14 +50,15 @@
                             </td>
                             <td data-title="Selected : " class="align-middle" style="min-width: 260px; left:60px; position: sticky !important; z-index:100">
                                 <div style="min-height:82px;">
-                                    <div ng-if="t.selected && t.selected==1" class="d-flex justify-content-end">
-                                        <span ng-click="t.selected=0" class="close-icon text-danger" data-effect="fadeOut">
+                                    <div class="d-flex justify-content-end" style="height: 24px;">
+                                        <span ng-click="t.selection.isselected=false" ng-if="t.selection && t.selection.isselected && t.temp_selected"
+                                             class="close-icon text-danger" data-effect="fadeOut">
                                             <i class="fa fa-times"></i>
                                         </span>
                                     </div>
-                                    <div ng-if="t.selected && t.selected==1" class="teamCapsule px-2 py-1 my-auto teamCapsule-active"
-                                        ng-style="{ 'background-color': t.approvedColor, 'color': t.textColor }">
-                                        <div class="row" style="height: 48px; min-width: 250px;">
+                                    <div ng-if="t.selection && t.selection.isselected" class="teamCapsule px-2 py-1 my-auto teamCapsule-active"
+                                        ng-style="{ 'background-color': t.selection.selectedColor, 'color': t.selection.selectedfontColor }">
+                                        <div class="row" style="height: 48px; min-width: 250px; max-width: 250px;">
                                             <div class="col-3">
                                                 <div class="d-flex align-items-center h-100">
                                                     <img ng-src="{{t.teamImageLink}}" style="max-height: 48px; max-width: 48px;">
@@ -70,24 +71,24 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div ng-if="t.selected && t.selected==1" class="d-flex justify-content-md-between">
+                                    <div ng-if="t.selection && t.selection.isselected" class="d-flex justify-content-md-between">
                                         <div class="mx-2">
                                             <input type="color" id="bg_picker_{{$index}}" 
-                                                ng-model="t.approvedColor" style="width: 13px; height:14px; padding: 0;">
-                                            <span ng-style="{ 'color': t.approvedColor }" 
+                                                ng-model="t.selection.selectedColor" style="width: 13px; height:14px; padding: 0;">
+                                            <span ng-style="{ 'color': t.selection.selectedColor }" 
                                                 ng-click="openColorPicker('bg_picker_' + $index)"
-                                                >{{ t.approvedColor }}</span>
+                                                >{{ t.selection.selectedColor }}</span>
                                         </div>
                                         <div class="mx-2">
-                                            <input type="color" id="text_picker_{{$index}}" 
-                                                ng-model="t.textColor" style="width: 13px; height:14px; padding: 0;">
-                                            <span ng-style="{ 'color': t.textColor }" 
-                                                ng-click="openColorPicker('text_picker_' + $index)">{{ t.textColor }}</span>
-                                            <span ng-click="t.textColor='#FFFFFF'">
+                                            <!-- <input type="color" id="text_picker_{{$index}}" 
+                                                ng-model="t.selection.selectedfontColor" style="width: 13px; height:14px; padding: 0;">
+                                            <span ng-style="{ 'color': t.selection.selectedfontColor }" 
+                                                ng-click="openColorPicker('text_picker_' + $index)">{{ t.selection.selectedfontColor }}</span> -->
+                                            <span ng-click="t.selection.selectedfontColor='#FFFFFF'">
                                                 <input type="color" id="text_picker_white_{{$index}}" disabled
                                                     value="#FFFFFF" style="width: 13px; height:14px; padding: 0;" />
                                             </span>
-                                            <span ng-click="t.textColor='#000000'">
+                                            <span ng-click="t.selection.selectedfontColor='#000000'">
                                                 <input type="color" id="text_picker_white_{{$index}}" disabled
                                                     value="#000000" style="width: 13px; height:14px; padding: 0;" />
                                             </span>
@@ -102,7 +103,7 @@
                                     <div class="teamCapsule px-2 py-1 my-auto" 
                                         ng-click="setApprovedColor(t, c)"
                                         ng-style="{'background-color':  c , 'color': '{{ c | getContrastColor }}'}">
-                                        <div class="row" style="height: 48px; min-width: 250px;">
+                                        <div class="row" style="height: 48px; min-width: 250px; max-width: 250px;">
                                             <div class="col-3">
                                                 <div class="d-flex align-items-center h-100">
                                                     <img ng-src="{{t.teamImageLink}}" style="max-height: 48px; max-width: 48px;">
