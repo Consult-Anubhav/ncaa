@@ -15,8 +15,8 @@ app.controller('ncaaController', function($scope, $http) {
     $scope.api = {
         ncaa: {
             fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
-            // save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
-            save: ''
+            save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+            // save: ''
         }
     };
 
