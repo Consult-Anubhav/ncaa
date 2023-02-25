@@ -34,12 +34,13 @@
                     <table class="table d-table table-sm-stack table-new-striped mb-0 table-borderless" id="table">
                         <thead>
                         <tr>
-                            <th colspan="2" style="left:0; position: sticky !important; z-index:100;font-size: 24px">NCAA Teams</th>
+                            <th colspan="3" style="left:0; position: sticky !important; z-index:100;font-size: 24px">NCAA Teams</th>
                             <th colspan="{{max_colors - 1}}"></th>
                         </tr>
                         <tr>
                             <th style="left:0; position: sticky !important; min-width:60px !important; z-index:100">#</th>
                             <th style="left:60px; position: sticky !important; z-index:100">Selected</th>
+                            <th style="left:320px; position: sticky !important; z-index:100">Comment</th>
                             <th colspan="{{max_colors}}">Options</th>
                         </tr>
                         </thead>
@@ -96,6 +97,11 @@
                                         </div>
                                     </div>
                                 </div>
+                            </td>
+                            <td data-title="Comment : " style="min-width: 260px; left:320px; position: sticky !important; z-index:100">
+                                <textarea class="form-control" rows="4" placeholder="Enter Your Comment" autocomplete="off"
+                                    ng-model="t.selection.comment" ng-change="t.temp_selected = true">
+                                </textarea>
                             </td>
                             <td data-title="Option : " class="align-middle" ng-repeat="c in t.teamColorCodes">
                                 <div>
@@ -283,13 +289,15 @@
                 </div>
             </div>
             
-            <div class="modal" tabindex="-1" role="dialog" id="commentModal">
+            <!-- <div class="modal" tabindex="-1" role="dialog" id="commentModal">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" ng-bind="modal_row.teamName"></h5>
                       <button type="button" class="close bg-white border-0" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span class="close-icon text-danger" data-effect="fadeOut">
+                            <i class="fa fa-times"></i>
+                        </span>
                       </button>
                     </div>
                     <div class="modal-body">
@@ -298,12 +306,11 @@
                         </textarea>
                     </div>
                     <div class="modal-footer">
-                      <!-- <button type="button" class="btn btn-primary">Save</button> -->
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                   </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </body>

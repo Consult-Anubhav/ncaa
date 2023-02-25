@@ -32,7 +32,7 @@ app.controller('ncaaController', function($scope, $http) {
                 });
 
                 $scope.data = response.data.Output;
-                $scope.paginateData(1);
+                $scope.paginateData($scope.pagination_details.current_page ? $scope.pagination_details.current_page : 1);
 
                 $("#preloader").fadeOut();
             })
@@ -55,7 +55,7 @@ app.controller('ncaaController', function($scope, $http) {
                     'teamName': ele.teamName,
                     'textColor': ele.selection.selectedfontColor,
                     'approvedColor': ele.selection.selectedColor,
-                    'comment': ele.comment ? ele.comment : null
+                    'comment': ele.selection.comment ? ele.selection.comment : null
                 });
         });
 
@@ -71,6 +71,7 @@ app.controller('ncaaController', function($scope, $http) {
             mode :'no-cors',
             body : JSON.stringify(data),
         }).then( (response) => {
+            $scope.init();
             $('#successModal').modal('show');
         } )
         .catch ((error) => {

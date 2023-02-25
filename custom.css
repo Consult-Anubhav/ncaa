@@ -81,7 +81,7 @@
 
                 
 /*Start - Stacked table style*/
-@media  (max-width: 767px)
+@media  (max-width: 992px)
 {
     .table-sm-stack table, .table-sm-stack tbody
     {
@@ -132,12 +132,19 @@
 {
     border-top: 1px solid black;
 }
-@media (min-width: 768px)
+@media (min-width: 992px)
 {
-    .table-new-striped tbody tr td:nth-child(2),
-    .table-new-striped thead tr:nth-child(2) th:nth-child(2)
+    .table-new-striped tbody tr td:nth-child(3),
+    .table-new-striped thead tr th:nth-child(3)
     {
-        border-right: 1px solid black;
+        /* border-right: 1px solid black; */
+        width: 100%;
+        display: inline-block;
+        box-shadow: 1px 0 0 0 black;
+    }
+    .table-new-striped tbody tr td:nth-child(3)
+    {
+        min-height: 122px;
     }
 }
 .table-new-striped tbody tr:nth-child(odd),
