@@ -55,7 +55,7 @@ app.controller('ncaaController', function($scope, $http) {
                     'teamName': ele.teamName,
                     'textColor': ele.selection.selectedfontColor,
                     'approvedColor': ele.selection.selectedColor,
-                    'comment': (ele.comment && ele.comment != '') ? ele.comment : null
+                    'comment': (ele.comment && ele.comment != '') ? ele.comment : ""
                 });
         });
 
