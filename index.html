@@ -52,7 +52,7 @@
                             <td data-title="Selected : " class="align-middle" style="min-width: 260px; left:60px; position: sticky !important; z-index:100">
                                 <div style="min-height:82px;">
                                     <div class="d-flex justify-content-end" style="height: 24px;">
-                                        <span ng-click="t.selection.isselected=false" ng-if="t.selection && t.selection.isselected && t.temp_selected"
+                                        <span ng-click="clearChanges(t)" ng-if="t.selection && t.selection.isselected && t.temp_selected"
                                              class="close-icon text-danger" data-effect="fadeOut">
                                             <i class="fa fa-times"></i>
                                         </span>

@@ -101,6 +101,14 @@ app.controller('ncaaController', function($scope, $http) {
         // team.approvedColor = color;
         // team.textColor = contrastColor(color);
     }
+    
+    $scope.clearChanges = function(t)
+    {
+        t.selection.isselected=false;
+        t.selection = t.old_selection;
+        t.temp_selected = false;
+        $('#commentModal').modal('show');
+    }
 
     $scope.paginated_data = [];
     
@@ -172,6 +180,7 @@ app.controller('ncaaController', function($scope, $http) {
         $scope.pre_paginated_data = $scope.data.slice($scope.pagination_details.from - 1, $scope.pagination_details.to);
 
         $scope.pre_paginated_data.forEach((ele1, index1) => {
+            ele1.old_selection = ele1.selection;
             ele1.teamColorCodes.forEach((ele2, index2) => { 
                 $scope.pre_paginated_data[index1].teamColorCodes[index2] = '#' + ele2.replace('#', '').substring(0,6);
             });
