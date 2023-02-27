@@ -3,27 +3,24 @@ app.controller('ncaaController', function($scope, $http) {
     
     $scope.data = [];
     $scope.max_colors = 0;
+    $scope.selected_sport = undefined;
     
-    // $scope.api = {
-    //     ncaa: {
-    //         fetch: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA==',
-    //         save: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=Eto4jJQkBLIbJV0fVO8Z6RFOwIr83z7fKkhfImXuVaQmwrg7jbLLgA=='
-    //     }
-    // };
+    $scope.sports = [{
+        title: 'NCAA Basketball',
+        key: 'ncaa'
+    }];
 
-    // test api
     $scope.api = {
         ncaa: {
             fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
             save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
-            // save: ''
         }
     };
 
     $scope.init = function()
     {
         $("#preloader").fadeIn();
-        $http.get($scope.api.ncaa.fetch)
+        $http.get($scope.api[$scope.selected_sport].fetch)
             .then(function (response)
             {
                 response.data.Output.forEach(ele => {
@@ -66,7 +63,7 @@ app.controller('ncaaController', function($scope, $http) {
 
     async function submitData(data = {})
     {
-        fetch($scope.api.ncaa.save, {
+        fetch($scope.api[$scope.selected_sport].save, {
             method: 'POST',
             mode :'no-cors',
             body : JSON.stringify(data),
@@ -265,9 +262,6 @@ app.controller('ncaaController', function($scope, $http) {
 
         $scope.paginateData(Math.floor(dividend / divisor) + 1);
     };
-
-    $scope.init();
-
 });
 
 function inverseChannelColour(channelColour){
