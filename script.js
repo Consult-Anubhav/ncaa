@@ -7,20 +7,17 @@ app.controller('ncaaController', function($scope, $http) {
     
     $scope.sports = [{
         title: 'NCAA Basketball',
-        key: 'ncaa'
-    }];
-
-    $scope.api = {
-        ncaa: {
+        key: 'ncaa',
+        api:{
             fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
             save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
         }
-    };
+    }];
 
     $scope.init = function()
     {
         $("#preloader").fadeIn();
-        $http.get($scope.api[$scope.selected_sport].fetch)
+        $http.get($scope.selected_sport.fetch)
             .then(function (response)
             {
                 response.data.Output.forEach(ele => {
@@ -63,7 +60,7 @@ app.controller('ncaaController', function($scope, $http) {
 
     async function submitData(data = {})
     {
-        fetch($scope.api[$scope.selected_sport].save, {
+        fetch($scope.selected_sport.save, {
             method: 'POST',
             mode :'no-cors',
             body : JSON.stringify(data),
