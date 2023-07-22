@@ -40,7 +40,9 @@ app.controller('ncaaController', function($scope, $http) {
     {
         console.log('hello');
         $("#preloader").fadeIn();
-        $http.get($scope.api.fetch)
+        $http.post($scope.api.fetch, {
+            input: [{sportId: sportId}]
+        })
         // getData({
         //     input: sportId
         // })
