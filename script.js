@@ -55,6 +55,15 @@ app.controller('ncaaController', function($scope, $http) {
                 response.data.Output.forEach(ele => {
                     if ($scope.max_colors < ele.teamColorCodes.length)
                         $scope.max_colors = ele.teamColorCodes.length;
+                    
+                    let arr = [];
+
+                    ele.teamColorCodes.forEach (color => {
+                        if (color !== null)
+                            arr.push(color);
+                    })
+
+                    ele.teamColorCodes = arr;
                 });
 
                 $scope.data = response.data.Output;
