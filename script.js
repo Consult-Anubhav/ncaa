@@ -12,7 +12,7 @@ app.controller('ncaaController', function($scope, $http) {
     
     $scope.sports = [{
         id: "1",
-        title: 'NCAA Basketball'
+        title: 'NCAA Baseball'
     },{
         id: "2",
         title: 'NCAA Football'
