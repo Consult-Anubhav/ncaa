@@ -10,31 +10,35 @@ app.controller('ncaaController', function($scope, $http) {
         save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
     };
     
-    $scope.sports = [{
-        id: "1",
-        title: 'NCAA Baseball'
-    },{
+    $scope.sports = [
+    // {
+    //     id: "1",
+    //     title: 'NCAA Baseball'
+    // },
+        {
         id: "2",
         title: 'NCAA Football'
     },{
         id: "3",
         title: 'NCAA Basketball'
-    },{
-        id: "4",
-        title: 'NCAA Hockey'
-    },{
-        id: "5",
-        title: 'NCAA Soccer'
-    },{
-        id: "6",
-        title: 'Draftsy Madness'
-    },{
-        id: "7",
-        title: 'Pro Baseball'
-    },{
-        id: "8",
-        title: 'Pro Football'
-    }];
+    }
+    // ,{
+    //     id: "4",
+    //     title: 'NCAA Hockey'
+    // },{
+    //     id: "5",
+    //     title: 'NCAA Soccer'
+    // },{
+    //     id: "6",
+    //     title: 'Draftsy Madness'
+    // },{
+    //     id: "7",
+    //     title: 'Pro Baseball'
+    // },{
+    //     id: "8",
+    //     title: 'Pro Football'
+    // }
+    ];
 
     $scope.init = function(sportId = $scope.selected_sport)
     {
