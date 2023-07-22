@@ -4,20 +4,46 @@ app.controller('ncaaController', function($scope, $http) {
     $scope.data = [];
     $scope.max_colors = 0;
     $scope.selected_sport = undefined;
+
+    $scope.api = {
+        fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+        save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+    };
     
     $scope.sports = [{
-        title: 'NCAA Basketball',
-        key: 'ncaa',
-        api:{
-            fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
-            save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
-        }
+        id: 1,
+        title: 'NCAA Basketball'
+    },{
+        id: 2,
+        title: 'NCAA Football'
+    },{
+        id: 3,
+        title: 'NCAA Basketball'
+    },{
+        id: 4,
+        title: 'NCAA Hockey'
+    },{
+        id: 5,
+        title: 'NCAA Soccer'
+    },{
+        id: 6,
+        title: 'Draftsy Madness'
+    },{
+        id: 7,
+        title: 'Pro Baseball'
+    },{
+        id: 8,
+        title: 'Pro Football'
     }];
 
-    $scope.init = function()
+    $scope.init = function(sportId = $scope.selected_sport)
     {
+        console.log('hello');
         $("#preloader").fadeIn();
-        $http.get($scope.selected_sport.fetch)
+        // $http.get($scope.selected_sport.fetch)
+        getData({
+            input: sportId
+        })
             .then(function (response)
             {
                 response.data.Output.forEach(ele => {
@@ -49,7 +75,8 @@ app.controller('ncaaController', function($scope, $http) {
                     'teamName': ele.teamName,
                     'textColor': ele.selection.selectedfontColor,
                     'approvedColor': ele.selection.selectedColor,
-                    'comment': (ele.comment && ele.comment != '') ? ele.comment : ""
+                    'comment': (ele.comment && ele.comment != '') ? ele.comment : "",
+                    'sportId': $scope.selected_sport
                 });
         });
 
@@ -58,9 +85,23 @@ app.controller('ncaaController', function($scope, $http) {
         $("#preloader").fadeOut();
     };
 
+    async function getData(data = {})
+    {
+        fetch($scope.api.fetch, {
+            method: 'POST',
+            mode :'no-cors',
+            body : JSON.stringify(data),
+        }).then( (response) => {
+            // $('#successModal').modal('show');
+        } )
+            .catch ((error) => {
+                $('#failureModal').modal('show');
+            })
+    }
+
     async function submitData(data = {})
     {
-        fetch($scope.selected_sport.save, {
+        fetch($scope.api.save, {
             method: 'POST',
             mode :'no-cors',
             body : JSON.stringify(data),
