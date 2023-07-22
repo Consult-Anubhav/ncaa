@@ -11,28 +11,28 @@ app.controller('ncaaController', function($scope, $http) {
     };
     
     $scope.sports = [{
-        id: 1,
+        id: "1",
         title: 'NCAA Basketball'
     },{
-        id: 2,
+        id: "2",
         title: 'NCAA Football'
     },{
-        id: 3,
+        id: "3",
         title: 'NCAA Basketball'
     },{
-        id: 4,
+        id: "4",
         title: 'NCAA Hockey'
     },{
-        id: 5,
+        id: "5",
         title: 'NCAA Soccer'
     },{
-        id: 6,
+        id: "6",
         title: 'Draftsy Madness'
     },{
-        id: 7,
+        id: "7",
         title: 'Pro Baseball'
     },{
-        id: 8,
+        id: "8",
         title: 'Pro Football'
     }];
 
