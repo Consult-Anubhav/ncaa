@@ -30,6 +30,11 @@ app.controller('ncaaController', function ($scope, $http) {
 
     $scope.initData = function (sportId = $scope.selected_sport) {
         $("#preloader").fadeIn();
+        $scope.pagination_details = {};
+        $scope.per_page_filter = 10;
+        $scope.currentPage = 1;
+        $scope.startPage = 0;
+        $scope.endPage = 0;
         $http.post($scope.api.fetch, {
             input: [{sportId: sportId}]
         })
