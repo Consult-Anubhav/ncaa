@@ -4,6 +4,7 @@ app.controller('ncaaController', function ($scope, $http) {
     $scope.data = [];
     $scope.max_colors = 0;
     $scope.selected_sport = undefined;
+    $scope.errors = [];
 
     $scope.api = {
         list: 'https://newdraftsytesting.azurewebsites.net/api/NCAASportList?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
@@ -20,7 +21,9 @@ app.controller('ncaaController', function ($scope, $http) {
                 $scope.sports = response.data;
                 $("#preloader").fadeOut();
             })
-            .catch(function () {
+            .catch(function (e) {
+                $scope.errors = e;
+                $('#failureModal').modal('show');
                 $("#preloader").fadeOut();
             });
     };
@@ -50,7 +53,12 @@ app.controller('ncaaController', function ($scope, $http) {
 
                 $("#preloader").fadeOut();
             })
-            .catch(function () {
+            .catch(function (e) {
+                $scope.errors = e;
+                $scope.data = [];
+                $scope.paginated_data = [];
+                $scope.pagination_details = {};
+                $('#failureModal').modal('show');
                 $("#preloader").fadeOut();
             });
     };
@@ -72,37 +80,18 @@ app.controller('ncaaController', function ($scope, $http) {
                 });
         });
 
-        submitData(new_data);
+        $http.post($scope.api.save, new_data)
+            .then(function (response) {
+                $scope.initData();
+                $('#successModal').modal('show');
+            })
+            .catch(function (e) {
+                $scope.errors = e;
+                $('#failureModal').modal('show');
+            });
 
         $("#preloader").fadeOut();
     };
-
-    async function getData(data = {}) {
-        fetch($scope.api.fetch, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(data),
-        }).then((response) => {
-            // $('#successModal').modal('show');
-        })
-            .catch((error) => {
-                $('#failureModal').modal('show');
-            })
-    }
-
-    async function submitData(data = {}) {
-        fetch($scope.api.save, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(data),
-        }).then((response) => {
-            $scope.initData();
-            $('#successModal').modal('show');
-        })
-            .catch((error) => {
-                $('#failureModal').modal('show');
-            })
-    }
 
     $scope.openColorPicker = function (id) {
         $('#' + id).trigger('click');
@@ -265,10 +254,6 @@ app.controller('ncaaController', function ($scope, $http) {
 
     $scope.init();
 });
-
-function inverseChannelColour(channelColour) {
-    return (255 - parseInt(channelColour, 16)).toString(16);
-}
 
 function contrastColor(color_init) {
     var lightColor = "#FFFFFF", darkColor = "000000";
