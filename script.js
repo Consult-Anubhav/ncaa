@@ -46,7 +46,7 @@ app.controller('ncaaController', function ($scope, $http) {
                     let arr = [];
 
                     ele.teamColorCodes.forEach(color => {
-                        if (color !== null)
+                        if (color !== null && arr.indexOf(color) === -1)
                             arr.push(color);
                     })
 
