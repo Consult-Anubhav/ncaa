@@ -2,21 +2,28 @@ var app = angular.module('ncaa', []);
 app.controller('ncaaController', function ($scope, $http) {
 
     $scope.data = [];
+    $scope.env_test_mode = false;
     $scope.max_colors = 0;
     $scope.selected_sport = undefined;
     $scope.errors = [];
 
-    $scope.api = {
+    $scope.test_api = {
         list: 'https://newdraftsytesting.azurewebsites.net/api/NCAASportList?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
         fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
         save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+    };
+
+    $scope.api = {
+        list: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAASportList?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+        fetch: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+        save: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
     };
 
     $scope.sports = [];
 
     $scope.init = function () {
         $("#preloader").fadeIn();
-        $http.get($scope.api.list)
+        $http.get($scope.env_test_mode ? $scope.test_api.list : $scope.api.list )
             .then(function (response) {
                 $scope.sports = response.data;
                 $("#preloader").fadeOut();
@@ -35,7 +42,7 @@ app.controller('ncaaController', function ($scope, $http) {
         $scope.currentPage = 1;
         $scope.startPage = 0;
         $scope.endPage = 0;
-        $http.post($scope.api.fetch, {
+        $http.post($scope.env_test_mode ? $scope.test_api.fetch : $scope.api.fetch, {
             input: [{sportId: sportId}]
         })
             .then(function (response) {
@@ -85,7 +92,9 @@ app.controller('ncaaController', function ($scope, $http) {
                 });
         });
 
-        $http.post($scope.api.save, new_data)
+        $http.post($scope.env_test_mode ? $scope.test_api.save : $scope.api.save
+            , new_data
+        )
             .then(function (response) {
                 $scope.initData();
                 $('#successModal').modal('show');
