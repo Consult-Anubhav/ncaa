@@ -29,10 +29,19 @@
 
         <div ng-app="ncaa" ng-controller="ncaaController">
 
-            <div class="form-check form-switch" style="position: absolute;right: 0; padding: 0 10px;">
-                <input class="form-check-input" type="checkbox" role="switch"
-                       ng-model="env_test_mode" ng-change="init()">
-                <label class="form-check-label" >Test Env</label>
+            <div style="position: absolute;right: 0; padding: 0 10px;">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" value="live" ng-model="api_env" ng-change="init()">
+                    <label class="form-check-label">Live</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" value="test" ng-model="api_env" ng-change="init()">
+                    <label class="form-check-label">Test</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" value="local" ng-model="api_env" ng-change="init()">
+                    <label class="form-check-label">Local</label>
+                </div>
             </div>
             <div class="container py-5">
                 <div class="table-responsive" style="border: 1px solid black; border-radius: 15px 15px 5px 5px !important;">

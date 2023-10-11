@@ -2,28 +2,33 @@ var app = angular.module('ncaa', []);
 app.controller('ncaaController', function ($scope, $http) {
 
     $scope.data = [];
-    $scope.env_test_mode = false;
+    $scope.api_env = 'live';
     $scope.max_colors = 0;
     $scope.selected_sport = undefined;
     $scope.errors = [];
-
-    $scope.test_api = {
-        list: 'https://newdraftsytesting.azurewebsites.net/api/NCAASportList?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
-        fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
-        save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
-    };
+    $scope.sports = [];
 
     $scope.api = {
-        list: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAASportList?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
-        fetch: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
-        save: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
-    };
-
-    $scope.sports = [];
+        live: {
+            list: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAASportList?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+            fetch: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+            save: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+        },
+        test: {
+            list: 'https://newdraftsytesting.azurewebsites.net/api/NCAASportList?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+            fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+            save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+        },
+        local: {
+            list: 'http://localhost:7071/api/NCAASportList',
+            fetch: 'http://localhost:7071/api/NCAAcolors',
+            save: 'http://localhost:7071/api/NCAAColorApproved'
+        }
+    }
 
     $scope.init = function () {
         $("#preloader").fadeIn();
-        $http.get($scope.env_test_mode ? $scope.test_api.list : $scope.api.list )
+        $http.get($scope.api[$scope.api_env].list )
             .then(function (response) {
                 $scope.sports = response.data;
                 $("#preloader").fadeOut();
@@ -42,7 +47,7 @@ app.controller('ncaaController', function ($scope, $http) {
         $scope.currentPage = 1;
         $scope.startPage = 0;
         $scope.endPage = 0;
-        $http.post($scope.env_test_mode ? $scope.test_api.fetch : $scope.api.fetch, {
+        $http.post($scope.api[$scope.api_env].fetch, {
             input: [{sportId: sportId}]
         })
             .then(function (response) {
@@ -92,7 +97,7 @@ app.controller('ncaaController', function ($scope, $http) {
                 });
         });
 
-        $http.post($scope.env_test_mode ? $scope.test_api.save : $scope.api.save
+        $http.post($scope.api[$scope.api_env].save
             , new_data
         )
             .then(function (response) {
