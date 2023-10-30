@@ -10,8 +10,8 @@ app.controller('ncaaController', function ($scope, $http) {
     $scope.login_form = {
         function: "usr_login",
         device_tkn: "",
-        email: "gopujkarsiddhid@gmail.com",
-        password: "abc123"
+        // email: "gopujkarsiddhid@gmail.com",
+        // password: "abc123"
     };
 
     $scope.api = {
@@ -96,6 +96,12 @@ app.controller('ncaaController', function ($scope, $http) {
                 $('#failureModal').modal('hide');
                 $("#preloader").fadeOut();
             });
+    };
+
+    $scope.logout = function () {
+        localStorage.removeItem("Session-Token");
+        localStorage.removeItem("Refresh-Token");
+        localStorage.removeItem("User-Id");
     };
 
     $scope.initData = function (sportId = $scope.selected_sport) {
