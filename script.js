@@ -7,35 +7,93 @@ app.controller('ncaaController', function ($scope, $http) {
     $scope.selected_sport = undefined;
     $scope.errors = [];
     $scope.sports = [];
+    $scope.login_form = {
+        function: "usr_login",
+        device_tkn: "",
+        email: "gopujkarsiddhid@gmail.com",
+        password: "abc123"
+    };
 
     $scope.api = {
         live: {
             list: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAASportList?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
             fetch: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
-            save: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+            save: 'https://new-azfn-draftsy.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+            refresh: 'https://new-azfn-draftsy.azurewebsites.net/api/loginAPI?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
         },
         test: {
             list: 'https://newdraftsytesting.azurewebsites.net/api/NCAASportList?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
             fetch: 'https://newdraftsytesting.azurewebsites.net/api/NCAAcolors?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
-            save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
+            save: 'https://newdraftsytesting.azurewebsites.net/api/NCAAColorApproved?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw==',
+            refresh: 'https://newdraftsytesting.azurewebsites.net/api/loginAPI?code=-I_Q7hBy_GklGzfdXQHXIXK95bX3z-vfE4GNgbBUoI5-AzFu3SORnw=='
         },
         local: {
             list: 'http://localhost:7071/api/NCAASportList',
             fetch: 'http://localhost:7071/api/NCAAcolors',
-            save: 'http://localhost:7071/api/NCAAColorApproved'
+            save: 'http://localhost:7071/api/NCAAColorApproved',
+            refresh: 'http://localhost:7071/api/loginAPI'
         }
     }
 
     $scope.init = function () {
         $("#preloader").fadeIn();
-        $http.get($scope.api[$scope.api_env].list )
+        $http.get($scope.api[$scope.api_env].list, {
+            headers: {'Session-Token':$scope.getToken()}
+        })
             .then(function (response) {
+                $scope.updateToken(response.headers('Session-Token'));
                 $scope.sports = response.data;
                 $("#preloader").fadeOut();
             })
             .catch(function (e) {
                 $scope.errors = e;
+                $scope.checkErrorCode(e.status);
                 $('#failureModal').modal('show');
+                $("#preloader").fadeOut();
+            });
+    };
+
+    $scope.refreshToken = function () {
+        $("#preloader").fadeIn();
+        form = {
+            function: 'refreshToken',
+            uid: $scope.getUserId(),
+            "Refresh-Token": $scope.getRefreshToken()
+        };
+        $http({
+            method: 'POST',
+            url:$scope.api[$scope.api_env].refresh,
+            data: form
+        })
+            .then(function (response) {
+                $scope.updateToken(response.headers('Session-Token'))
+                $("#preloader").fadeOut();
+            })
+            .catch(function (e) {
+                $scope.errors = e;
+                $('#failureModal').modal('hide');
+                $('#loginModal').modal('show');
+                $("#preloader").fadeOut();
+            });
+    };
+
+    $scope.submitLogin = function () {
+        $("#preloader").fadeIn();
+        $scope.login_form.function = "usr_login";
+        $http({
+            method: 'POST',
+            url:$scope.api[$scope.api_env].refresh,
+            data: $scope.login_form,
+            // headers: {'Session-Token':$scope.getToken()}
+        })
+            .then(function (response) {
+                $scope.setCredentials(response.headers('Session-Token'), response.data.data["User ID"],response.headers('Refresh-Token'));
+                $('#loginModal').modal('hide');
+                $("#preloader").fadeOut();
+            })
+            .catch(function (e) {
+                $scope.errors = e;
+                $('#failureModal').modal('hide');
                 $("#preloader").fadeOut();
             });
     };
@@ -47,10 +105,14 @@ app.controller('ncaaController', function ($scope, $http) {
         $scope.currentPage = 1;
         $scope.startPage = 0;
         $scope.endPage = 0;
-        $http.post($scope.api[$scope.api_env].fetch, {
-            input: [{sportId: sportId}]
+        $http({
+            method: 'POST',
+            url:$scope.api[$scope.api_env].fetch,
+            data: {input: [{sportId: sportId}]},
+            headers: {'Session-Token':$scope.getToken()}
         })
             .then(function (response) {
+                $scope.updateToken(response.headers('Session-Token'));
                 response.data.Output.forEach(ele => {
                     if ($scope.max_colors < ele.teamColorCodes.length)
                         $scope.max_colors = ele.teamColorCodes.length;
@@ -75,6 +137,7 @@ app.controller('ncaaController', function ($scope, $http) {
                 $scope.data = [];
                 $scope.paginated_data = [];
                 $scope.pagination_details = {};
+                $scope.checkErrorCode(e.status);
                 $('#failureModal').modal('show');
                 $("#preloader").fadeOut();
             });
@@ -97,29 +160,62 @@ app.controller('ncaaController', function ($scope, $http) {
                 });
         });
 
-        $http.post($scope.api[$scope.api_env].save
-            , new_data
-        )
+        $http({
+            method: 'POST',
+            url:$scope.api[$scope.api_env].save,
+            data: new_data,
+            headers: {'Session-Token':$scope.getToken()}
+        })
             .then(function (response) {
+                $scope.updateToken(response.headers('Session-Token'));
                 $scope.initData();
                 $('#successModal').modal('show');
             })
             .catch(function (e) {
                 $scope.errors = e;
+                $scope.checkErrorCode(e.status);
                 $('#failureModal').modal('show');
             });
 
         $("#preloader").fadeOut();
     };
 
+    $scope.setCredentials = function (token, uid,refresh_token) {
+        localStorage.setItem("Session-Token", token);
+        localStorage.setItem("Refresh-Token", refresh_token);
+        localStorage.setItem("User-Id", uid);
+    };
+
+    $scope.updateToken = function (token) {
+        if (token)
+            localStorage.setItem("Session-Token", token);
+    };
+
+    $scope.getToken = function () {
+        return localStorage.getItem("Session-Token");
+    };
+
+    $scope.getRefreshToken = function () {
+        return localStorage.getItem("Refresh-Token");
+    };
+
+    $scope.getUserId = function () {
+        return localStorage.getItem("User-Id");
+    };
+
+    $scope.checkErrorCode = function (code) {
+        if (code === 403)
+            $scope.refreshToken()
+    };
+
     $scope.openColorPicker = function (id) {
         $('#' + id).trigger('click');
-    }
+    };
 
     $scope.openComment = function (t) {
         $scope.modal_row = t;
         $('#commentModal').modal('show');
-    }
+    };
 
     $scope.setApprovedColor = function (team, color) {
         team.selection = {};
@@ -127,14 +223,14 @@ app.controller('ncaaController', function ($scope, $http) {
         team.selection.selectedColor = color;
         team.selection.selectedfontColor = contrastColor(color);
         team.temp_selected = true;
-    }
+    };
 
     $scope.clearChanges = function (t) {
         t.selection.isselected = false;
         t.selection = t.old_selection;
         t.temp_selected = false;
         $('#commentModal').modal('show');
-    }
+    };
 
     $scope.paginated_data = [];
     $scope.pagination_details = {};
